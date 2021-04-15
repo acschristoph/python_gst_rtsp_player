@@ -33,9 +33,13 @@ Python Rtsp Player with Gstreamer that can messaure fps/bitrate and other intern
 [Gtreamer RTSP flags documnetation](https://lazka.github.io/pgi-docs/GstRtsp-1.0/flags.html#GstRtsp.RTSPLowerTrans) 
 
 ***location***  RTSP Stream location (default: *demo stream*)
+
 ***latency***  RTSP Stream latency  (default: *200*)
+
 ***protocols***  RTSP Stream protocols  (default: *GstRtsp.RTSPLowerTrans.UDP*)
+
 ***user_id***  RTSP Stream Authentication Username  (default: *""*)
+
 ***user_pw***  RTSP Stream Authentication Password (default: *""*)
 
     from rtsp_gst import RTSP_CONFIG
