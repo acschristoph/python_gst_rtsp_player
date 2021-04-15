@@ -1,6 +1,6 @@
 # python_gst_rtsp_player
 
-Python Rtsp Player with Gstreamer that can messaure fps/bitrate and other internal stuff.
+Python Rtsp Player with Gstreamer that play and display rtp/jitterbuffer/fps/bitrate etc.
 
 ![enter image description here](https://i.imgur.com/dpQ7Q4d.png)
 
