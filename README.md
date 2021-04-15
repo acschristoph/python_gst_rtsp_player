@@ -18,9 +18,13 @@ Python Rtsp Player with Gstreamer that can messaure fps/bitrate and other intern
 
 ## Player arguments
 ***rtspsrc_config***  RTSP_CONFIG (Dataclass)
+
 ***decoder***  Gstreamer decoder element as string or Gst-Element (Default: avdec_h264)
+
 ***sink***  Gstreamer sink element as string or Gst-Element  (Default: autovideosink)
+
 ***loglevel*** Loglevel (Default: INFO)
+
 ***restart_on_error*** Restart in case of error (Default: False)
 
 
