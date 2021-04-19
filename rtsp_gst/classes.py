@@ -15,6 +15,8 @@ class RTSP_CONFIG():
     protocols: int = GstRtsp.RTSPLowerTrans.UDP
     user_id: str = ""
     user_pw: str = ""
+    name: str = "Default Stream 1"
+    id: int = 0
 
 class STATE(Enum):
     """
@@ -83,6 +85,7 @@ class BUFFER:
     offset: int
     offset_end: int
     pts: int
+    data: bytes
 
 @dataclass
 class STATE_CHANGE:

@@ -1,6 +1,5 @@
 import logging
 import time
-
 from rtsp_gst.classes import BUFFER, FPS_CALCULATOR, STATE_CHANGE, \
     STATE, TAGS, RTSP_CAPS, X_RTP_JITTERBUFFER_STATS, X_RTP_BIN_STATS
     
@@ -22,6 +21,13 @@ class BUS_HANDLERS():
             STATE(state.pending)
         )
         logging.debug(f"State | {self.state}")
+
+    def new_buffer(self, sink):
+        """
+            Callback where samples/frame are recv from appsink
+        """
+        self.new_frame(sink.emit("pull-sample"))
+        return Gst.FlowReturn.OK
 
     def on_eos(self, bus, message):
         """
@@ -79,12 +85,27 @@ class BUS_HANDLERS():
             message.src.name
         )
 
+    def new_frame(self, sample):
+        buffer = sample.get_buffer()
+        self.appsink_buffer = BUFFER(buffer.dts, buffer.duration, buffer.offset, buffer.offset_end, buffer.pts, buffer.extract_dup(0, buffer.get_size()))
+        caps = sample.get_caps()
+        self.frame_width = caps.get_structure(0).get_value('width')
+        self.frame_height = caps.get_structure(0).get_value('height')
+        self.socket_io.sendMessage(self.appsink_buffer.data, True)
+        #self.socket_io.websocketclass.send_message(self.socket_io.websocketclass, {"buffer": self.appsink_buffer.data})
+
     def on_handoff(self, identity, buffer):
         """
            identity element callback, used to calculate FPS
         """
-        self.identity_buffer = BUFFER(buffer.dts, buffer.duration,
-                             buffer.offset, buffer.offset_end, buffer.pts)
+        self.identity_buffer = BUFFER(
+            buffer.dts, 
+            buffer.duration,
+            buffer.offset,
+            buffer.offset_end,
+            buffer.pts,
+            buffer.extract_dup(0, buffer.get_size())
+        )
         self.calculate_fps()
 
     def calculate_fps(self):
